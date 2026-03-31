@@ -1,4 +1,5 @@
-﻿namespace CyclopsDockingMod.Fixers
+/*
+namespace CyclopsDockingMod.Fixers
 {
 	internal static class MyuGUI_SignInputFixer
 	{
@@ -9,3 +10,4 @@
 		}
 	}
 }
+*/

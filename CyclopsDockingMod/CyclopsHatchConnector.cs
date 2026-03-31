@@ -7,8 +7,8 @@ using System.Diagnostics.CodeAnalysis;
 #else
 using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Handlers;
-#endif
 using Ingredient = CraftData.Ingredient;
+#endif
 using UnityEngine;
 
 namespace CyclopsDockingMod
@@ -68,14 +68,17 @@ namespace CyclopsDockingMod
 			CyclopsDockingMod.CyclopsHatchConnector = base.TechType;
 			this.IsHabitatBuilder = true;
 #if SUBNAUTICA_NAUTI
-            base.Recipe = new RecipeData
+            base.Recipe = new RecipeData(this.SortIngredients())
+            {
+                craftAmount = 1
+            };
 #else
             base.Recipe = new TechData
-#endif
 			{
 				craftAmount = 1,
 				Ingredients = this.SortIngredients()
 			};
+#endif
 		}
 
 		private List<Ingredient> SortIngredients()

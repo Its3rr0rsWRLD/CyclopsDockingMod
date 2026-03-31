@@ -114,14 +114,18 @@ namespace CyclopsDockingMod.Fixers
 				for (int i = 0; i < componentsInChildren.Length; i++)
 					UnityEngine.Object.Destroy(componentsInChildren[i]);
 				BuilderFixer._renderers.SetValue(null, MaterialExtensions.AssignMaterial((GameObject)BuilderFixer._ghostModel.GetValue(null), (Material)BuilderFixer._ghostStructureMaterial.GetValue(null), true));
-				string poweredPrefabName = CraftData.GetPoweredPrefabName((TechType)BuilderFixer._constructableTechType.GetValue(null));
-				if (!string.IsNullOrEmpty(poweredPrefabName))
+				var getPoweredPrefabName = typeof(CraftData).GetMethod("GetPoweredPrefabName", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+				if (getPoweredPrefabName != null)
 				{
-					CoroutineHost.StartCoroutine((IEnumerator)BuilderFixer._CreatePowerPreviewAsync.Invoke(null, new object[]
+					string poweredPrefabName = (string)getPoweredPrefabName.Invoke(null, new object[] { (TechType)BuilderFixer._constructableTechType.GetValue(null) });
+					if (!string.IsNullOrEmpty(poweredPrefabName))
 					{
-						(GameObject)BuilderFixer._ghostModel.GetValue(null),
-						poweredPrefabName
-					}));
+						CoroutineHost.StartCoroutine((IEnumerator)BuilderFixer._CreatePowerPreviewAsync.Invoke(null, new object[]
+						{
+							(GameObject)BuilderFixer._ghostModel.GetValue(null),
+							poweredPrefabName
+						}));
+					}
 				}
 				BuilderFixer._InitBounds.Invoke(null, new object[] { (GameObject)BuilderFixer._prefab.GetValue(null) });
 			}
